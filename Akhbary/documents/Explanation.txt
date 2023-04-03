@@ -1,0 +1,11 @@
+**** Video 91 - What is API?
+* API is a channel between user and remote database
+* URL consists of three main components - base URL/method?query
+    1. base URL: server address
+    2. method: path inside the server for ex: (which table from database you want to get data from?)
+    3. query: what you want after access specific path?
+* You might need queries when you call an API
+* API return result in JSON file (map [key: value])
+__________________________________________________________________________________________________________________________________
+**** Video 94
+* From each cubit you provide only one object
