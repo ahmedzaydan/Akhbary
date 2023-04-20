@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../shared/cubit/news_cubit.dart';
-import '../../shared/cubit/news_states.dart';
+import '../shared/cubit/news_cubit.dart';
+import '../shared/cubit/news_states.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);

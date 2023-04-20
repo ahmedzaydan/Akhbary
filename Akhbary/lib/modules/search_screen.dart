@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../shared/components/components.dart';
-import '../../shared/cubit/news_cubit.dart';
-import '../../shared/cubit/news_states.dart';
+import '../shared/components/components.dart';
+import '../shared/cubit/news_cubit.dart';
+import '../shared/cubit/news_states.dart';
 
 
+// ignore: must_be_immutable
 class SearchScreen extends StatelessWidget {
   var searchedDataController = TextEditingController();
 
@@ -40,9 +41,9 @@ class SearchScreen extends StatelessWidget {
                     }
                   },
                   myOnChanged: (value) {
-                    cubit.getSearchedData(
-                      query: value,
-                    );
+                    // cubit.getSearchedData(
+                    //   query: value,
+                    // );
                   },
                 ),
               ),

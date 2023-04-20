@@ -17,12 +17,9 @@ class APIHandler {
   // init is static to be able to access it from class name directly
   static init() {
     dio = Dio(
-      BaseOptions(
-        // server address
-        baseUrl: 'https://newsapi.org/',
-
-        // receive date in all conditions
-        receiveDataWhenStatusError: true,
+      BaseOptions(      
+        baseUrl: 'https://newsapi.org/', // server address
+        receiveDataWhenStatusError: true, // receive date in all conditions
       ),
     );
   }
