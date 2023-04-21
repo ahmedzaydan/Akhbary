@@ -24,7 +24,7 @@ void main() async {
   // create shared preferences object when starting the app
   await CacheController.init();
 
-  bool? isDarkModeOn = CacheController.getBoolean(key: 'switchValue');
+  bool? isDarkModeOn = CacheController.getBoolean(key: 'darkMode');
 
   runApp(AkhbaryApp(isDarkModeOn));
 }
@@ -43,7 +43,10 @@ class AkhbaryApp extends StatelessWidget {
         // send to shared preferences when launching the app
         BlocProvider(
           create: (context) {
-            return NewsCubit()..setSwitchValue(darkMode: isDarkMode);
+            return NewsCubit()
+              ..setDarkMode(
+                darkModeParameter: isDarkMode,
+              );
           },
         ),
         BlocProvider(
@@ -64,7 +67,7 @@ class AkhbaryApp extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 theme: lightTheme(),
                 darkTheme: darkTheme(),
-                themeMode: cubit.switchValue ? ThemeMode.dark : ThemeMode.light,
+                themeMode: cubit.darkMode ? ThemeMode.dark : ThemeMode.light,
               );
             },
           );

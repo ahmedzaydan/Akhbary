@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../shared/cubit/news_cubit.dart';
-import '../shared/cubit/news_states.dart';
+import '../../shared/cubit/news_cubit.dart';
+import '../../shared/cubit/news_states.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -35,9 +35,9 @@ class SettingsScreen extends StatelessWidget {
                   inactiveTrackColor: Colors.grey.shade400,
                   splashRadius: 50.0,
                   onChanged: (switchVal) {
-                    NewsCubit.getNewsCubit(context).setSwitchValue();
+                    NewsCubit.getNewsCubit(context).setDarkMode();
                   },
-                  value: NewsCubit.getNewsCubit(context).switchValue,
+                  value: NewsCubit.getNewsCubit(context).darkMode,
                 ),
               ),
             ],

@@ -73,3 +73,7 @@ class GetGeneralDataErrorState extends CategoriesStates {
 }
 
 class ChangeCategoryNameState extends CategoriesStates {}
+
+class MarkArticleReadState extends CategoriesStates {}
+
+class AddToFavoritesState extends CategoriesStates {}

@@ -1,4 +1,5 @@
 // ignore_for_file: avoid_print
+import 'package:akhbary/models/article_model.dart';
 import 'package:akhbary/modules/categories/categories_cubit/categories_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,7 +19,8 @@ class CategoriesCubit extends Cubit<CategoriesStates> {
   void changeCategoryName({
     required String categoryName,
   }) {
-    category = categoryName.toLowerCase(); // as categoryName comes from categoriesNames list
+    category = categoryName
+        .toLowerCase(); // as categoryName comes from categoriesNames list
     getCategoryData();
     emit(ChangeCategoryNameState());
   }
@@ -34,7 +36,7 @@ class CategoriesCubit extends Cubit<CategoriesStates> {
     'General',
   ];
 
-  Map<String, List<dynamic>> categoriesData = {
+  Map<String, List<ArticleModel>> categoriesData = {
     'business': [],
     'entertainment': [],
     'health': [],
@@ -43,6 +45,10 @@ class CategoriesCubit extends Cubit<CategoriesStates> {
     'technology': [],
     'general': [],
   };
+
+  List<ArticleModel> readData = [];
+
+  List<ArticleModel> favoritesData = [];
 
   Map<String, List<CategoriesStates>> states = {
     'business': [
@@ -93,7 +99,16 @@ class CategoriesCubit extends Cubit<CategoriesStates> {
           'apiKey': apiKey,
         },
       ).then((value) {
-        categoriesData[category] = value.data['articles'];
+        // parse each article and map it
+        List<dynamic> list = value.data['articles'];
+        for (var article in list) {
+          ArticleModel articleModel = ArticleModel.mapArticleToModel(
+            article: article,
+            articleCategory: category,
+          );
+          categoriesData[category]!.add(articleModel);
+        }
+        // categoriesData[category] = value.data['articles'];
         emit(states[category]![1]);
       }).catchError((error) {
         print(error.toString());
@@ -124,5 +139,37 @@ class CategoriesCubit extends Cubit<CategoriesStates> {
     } else {
       emit(states[category]![1]);
     }
+  }
+
+  void markArticleRead({
+    required int articleID,
+    required String articleCategory,
+  }) {
+    ArticleModel articleModel = categoriesData[articleCategory]!
+        .firstWhere((article) => article.id == articleID);
+    if (!readData.any((article) => article.id == articleModel.id)) {
+      readData.add(articleModel);
+    }
+    articleModel.read = !articleModel.read;
+    if (articleModel.read == false) {
+      readData.remove(articleModel);
+    }
+    emit(MarkArticleReadState());
+  }
+
+  void addToFavorites({
+    required int articleID,
+    required String articleCategory,
+  }) {
+    ArticleModel articleModel = categoriesData[articleCategory]!
+        .firstWhere((article) => article.id == articleID);
+    if (!favoritesData.any((article) => article.id == articleModel.id)) {
+      favoritesData.add(articleModel);
+    }
+    articleModel.favorites = !articleModel.favorites;
+    if (articleModel.favorites == false) {
+      favoritesData.remove(articleModel);
+    }
+    emit(AddToFavoritesState());
   }
 }

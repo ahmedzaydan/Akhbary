@@ -2,8 +2,8 @@ import 'package:akhbary/shared/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'categories_cubit/categories_cubit.dart';
-import 'categories_cubit/categories_states.dart';
+import '../categories/categories_cubit/categories_cubit.dart';
+import '../categories/categories_cubit/categories_states.dart';
 
 // ignore: must_be_immutable
 class ChooseCategoryScreen extends StatelessWidget {

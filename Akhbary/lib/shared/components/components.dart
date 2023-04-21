@@ -1,11 +1,13 @@
 // ignore_for_file: avoid_print
+import 'package:akhbary/models/article_model.dart';
 import 'package:akhbary/modules/categories/categories_cubit/categories_cubit.dart';
 import 'package:akhbary/modules/categories/category_screen.dart';
+import 'package:akhbary/shared/components/constants.dart';
+import 'package:akhbary/shared/styles/color.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 
 import '../../modules/webview_screen.dart';
-import 'constants.dart';
 
 // custom TextFormField
 Widget myTextFormField({
@@ -49,44 +51,44 @@ Widget myTextFormField({
 // search bar
 Widget searchBar(context) {
   return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: SizedBox(
-        height: 48,
-        width: double.infinity,
-        child: TextFormField(
-          decoration: InputDecoration(
-            hintStyle: Theme.of(context).textTheme.bodyLarge,
-            filled: true,
-            focusColor: Colors.blue,
-            fillColor: Colors.white,
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25.0),
-              borderSide: const BorderSide(
-                width: 3.0,
-                color: Colors.blue,
-              ),
+    padding: const EdgeInsets.all(5.0),
+    child: SizedBox(
+      height: 48,
+      width: double.infinity,
+      child: TextFormField(
+        decoration: InputDecoration(
+          hintStyle: Theme.of(context).textTheme.bodyLarge,
+          filled: true,
+          focusColor: Colors.blue,
+          fillColor: Colors.white,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+            borderSide: const BorderSide(
+              width: 3.0,
+              color: Colors.blue,
             ),
-            disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25.0),
-              borderSide: const BorderSide(
-                width: 3.0,
-                color: Colors.white,
-              ),
-            ),
-            prefixIcon: IconButton(
-              icon: Icon(
-                Icons.search,
-                size: 20,
-                color: Colors.grey[600],
-              ),
-              onPressed: () {},
-            ),
-            hintText: "Search",
           ),
-          onFieldSubmitted: (value) {},
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+            borderSide: const BorderSide(
+              width: 3.0,
+              color: Colors.white,
+            ),
+          ),
+          prefixIcon: IconButton(
+            icon: Icon(
+              Icons.search,
+              size: 20,
+              color: Colors.grey[600],
+            ),
+            onPressed: () {},
+          ),
+          hintText: "Search",
         ),
+        onFieldSubmitted: (value) {},
       ),
-    );
+    ),
+  );
 }
 
 Widget verticalSeparator({double value = 10}) => Container(
@@ -101,21 +103,22 @@ Widget horizontalSeparator({double value = 10}) => SizedBox(width: value);
 
 // build article item
 Widget buildArticleItem({
-  required Map<String, dynamic> article,
+  required ArticleModel article,
   required BuildContext context,
   TextAlign align = TextAlign.right,
 }) {
+  CategoriesCubit categoriesCubit = CategoriesCubit.getCategoriesCubit(context);
   return Padding(
     padding: const EdgeInsets.all(20.0),
     child: SizedBox(
-      height: 130,
+      height: 150,
       width: double.infinity,
       // InkWell to make article clickable
       child: InkWell(
         onTap: () {
           navigateTo(
             context: context,
-            destination: WebViewScreen(article['url']),
+            destination: WebViewScreen('${article.url}'),
           );
         },
         child: Row(
@@ -129,9 +132,9 @@ Widget buildArticleItem({
                   image: DecorationImage(
                     fit: BoxFit.cover,
                     image: NetworkImage(
-                      article['urlToImage'] != null
-                          ? '${article['urlToImage']}'
-                          : noImageAvailable,
+                      article.urlToImage != null
+                          ? '${article.urlToImage}'
+                          : breakingNewsPhoto,
                     ),
                   )),
             ),
@@ -149,7 +152,7 @@ Widget buildArticleItem({
                 children: [
                   // title
                   Text(
-                    '${article['title']}',
+                    '${article.title}',
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     textAlign: align,
@@ -157,16 +160,52 @@ Widget buildArticleItem({
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
 
-                  // publishing date
-                  Text(
-                    '${article['publishedAt']}',
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  // publishing date + favorites + read
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          article.publishedAt.toString().substring(0, 9),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      // favorites icon
+                      IconButton(
+                        onPressed: () {
+                          categoriesCubit.addToFavorites(
+                            articleID: article.id,
+                            articleCategory: article.category!,
+                          );
+                        },
+                        icon: Icon(
+                          article.favorites ? Icons.star : Icons.star_outline,
+                        ),
+                      ),
+
+                      // read icon
+                      IconButton(
+                        onPressed: () {
+                          categoriesCubit.markArticleRead(
+                            articleID: article.id,
+                            articleCategory: article.category!,
+                          );
+                        },
+                        icon: Icon(
+                          article.read
+                              ? Icons.mark_chat_read
+                              : Icons.mark_chat_read_outlined,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -228,7 +267,7 @@ Widget buildCategory({
     child: Container(
       width: double.infinity,
       decoration: const BoxDecoration(
-        color: Colors.blue,
+        color: lightThemeColor,
         borderRadius: BorderRadius.all(Radius.circular(15)),
       ),
       padding: const EdgeInsets.all(20.0),
@@ -246,7 +285,7 @@ Widget buildCategory({
           categoriesCubit.changeCategoryName(
             categoryName: category,
           );
-          
+
           navigateTo(
             context: context,
             destination: const CategoryScreen(),

@@ -1,7 +1,9 @@
 // api part
-const String noImageAvailable = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png';
+const String noImageAvailable =
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png';
 const String apiKey = '64e2c14bffc049859aee83949bcf6a70';
-
+const String breakingNewsPhoto =
+    'https://static.vecteezy.com/system/resources/thumbnails/006/299/370/original/world-breaking-news-digital-earth-hud-rotating-globe-rotating-free-video.jpg';
 
     /// screens
 // base url : https://newsapi.org/
