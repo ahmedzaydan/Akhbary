@@ -90,7 +90,7 @@ class CategoriesCubit extends Cubit<CategoriesStates> {
     emit(states[category]![0]);
     // if condition to get data only once
     if (categoriesData[category]!.isEmpty) {
-      APIHandler.getDate(
+      APIHandler.getData(
         method: 'v2/top-headlines',
         queries: {
           'country': country,
@@ -157,7 +157,7 @@ class CategoriesCubit extends Cubit<CategoriesStates> {
     emit(MarkArticleReadState());
   }
 
-  void addToFavorites({
+  void addArticleToFavorites({
     required int articleID,
     required String articleCategory,
   }) {

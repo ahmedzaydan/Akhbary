@@ -17,7 +17,7 @@ class APIHandler {
   // init is static to be able to access it from class name directly
   static init() {
     dio = Dio(
-      BaseOptions(      
+      BaseOptions(
         baseUrl: 'https://newsapi.org/', // server address
         receiveDataWhenStatusError: true, // receive date in all conditions
       ),
@@ -26,7 +26,7 @@ class APIHandler {
 
   // get data from API
   // getData is static to be able to access it from class name directly
-  static Future<Response> getDate({
+  static Future<Response> getData({
     required String method,
     Map<String, dynamic>? queries,
   }) async {

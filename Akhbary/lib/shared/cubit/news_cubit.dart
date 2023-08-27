@@ -6,6 +6,7 @@ import 'package:akhbary/modules/bottom_navbar_screens/read_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../models/article_model.dart';
 import '../../modules/bottom_navbar_screens/settings_screen.dart';
 import '../components/constants.dart';
 import '../network/local/cache_controller.dart';
@@ -73,12 +74,12 @@ class NewsCubit extends Cubit<NewsStates> {
   void setDarkMode({
     bool? darkModeParameter,
   }) {
-    // if darkModeParameter is null 
+    // if darkModeParameter is null
     // then it is the start of the app so get the value cached
     if (darkModeParameter != null) {
       darkMode = darkModeParameter;
     } else {
-      // otherwise we toggle the value of it and 
+      // otherwise we toggle the value of it and
       // then cache the value after toggling it
       darkMode = !darkMode;
       CacheController.setBoolean(key: 'darkMode', value: darkMode);
@@ -87,19 +88,25 @@ class NewsCubit extends Cubit<NewsStates> {
   }
 
   // get data on search
-  List<dynamic> searchData = [];
+  List<ArticleModel> searchData = [];
   void getSearchedData({
     required String query,
   }) {
     emit(SearchLoadingState());
-    APIHandler.getDate(
+    APIHandler.getData(
       method: 'v2/everything',
       queries: {
         'q': query,
         'apiKey': apiKey,
       },
     ).then((value) {
-      searchData = value.data['articles'];
+      List<dynamic> list = value.data['articles'];
+      for (var article in list) {
+        ArticleModel articleModel = ArticleModel.mapArticleToModel(
+          article: article,
+        );
+        searchData.add(articleModel);
+      }
       emit(GetSearchDataSuccessState());
     }).catchError((error) {
       print(error.toString());

@@ -181,13 +181,14 @@ Widget buildArticleItem({
                       // favorites icon
                       IconButton(
                         onPressed: () {
-                          categoriesCubit.addToFavorites(
+                          categoriesCubit.addArticleToFavorites(
                             articleID: article.id,
                             articleCategory: article.category!,
                           );
                         },
                         icon: Icon(
                           article.favorites ? Icons.star : Icons.star_outline,
+                          color: Theme.of(context).iconTheme.color,
                         ),
                       ),
 

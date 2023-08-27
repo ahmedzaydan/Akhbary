@@ -7,6 +7,7 @@ import 'package:akhbary/shared/network/remote/api_handler.dart';
 import 'package:akhbary/shared/styles/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:localization/localization.dart';
 
 import 'layout/home_layout_screen.dart';
 import 'modules/categories/categories_cubit/categories_states.dart';
@@ -64,7 +65,7 @@ class AkhbaryApp extends StatelessWidget {
             builder: (context, state) {
               return MaterialApp(
                 home: HomeLayout(),
-                debugShowCheckedModeBanner: false,
+                debugShowCheckedModeBanner: true,
                 theme: lightTheme(),
                 darkTheme: darkTheme(),
                 themeMode: cubit.darkMode ? ThemeMode.dark : ThemeMode.light,

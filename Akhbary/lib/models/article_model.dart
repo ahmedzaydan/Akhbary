@@ -13,7 +13,7 @@ class ArticleModel {
 
   ArticleModel.mapArticleToModel({
     required Map<String, dynamic> article,
-    required String articleCategory,
+    String? articleCategory,
   }) {
     author = article['author'];
     title = article['title'];

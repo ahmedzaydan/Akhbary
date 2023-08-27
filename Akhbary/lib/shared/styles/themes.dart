@@ -41,6 +41,11 @@ ThemeData lightTheme() {
     primaryColor: lightThemeColor,
     primarySwatch: lightThemeColor,
 
+    // control icon theme
+    iconTheme: const IconThemeData(
+      color: Colors.black,
+    ),
+
     // control text theme
     textTheme: const TextTheme(
         bodyLarge: TextStyle(
@@ -96,6 +101,11 @@ ThemeData darkTheme() {
     // control body
     primaryColor: darkThemeColor,
     primarySwatch: Colors.pink,
+    
+    // control icon theme
+    iconTheme: const IconThemeData(
+      color: Colors.white,
+    ),
 
     // control text theme
     textTheme: const TextTheme(

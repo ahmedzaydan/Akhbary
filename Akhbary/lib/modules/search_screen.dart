@@ -41,9 +41,9 @@ class SearchScreen extends StatelessWidget {
                     }
                   },
                   myOnChanged: (value) {
-                    // cubit.getSearchedData(
-                    //   query: value,
-                    // );
+                    cubit.getSearchedData(
+                      query: value,
+                    );
                   },
                 ),
               ),
